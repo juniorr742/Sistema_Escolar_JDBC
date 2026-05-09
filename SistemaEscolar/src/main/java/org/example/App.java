@@ -5,6 +5,11 @@ import daoImplements.AlunoDAOImplements;
 import database.sqlConn;
 import model.Aluno;
 
+import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Scanner;
 
@@ -15,6 +20,8 @@ public class App
         sqlConn.testConnection();
         AlunoDAOImplements alunoDAOImplements = new AlunoDAOImplements();
         Scanner sc = new Scanner(System.in);
+        // Import correto: import java.time.format.DateTimeFormatter;
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         int opcao;
 
         do {
@@ -37,6 +44,27 @@ public class App
                     break;
                 case 2:
                     System.out.println("Atualizar dados");
+
+                    System.out.println("Digite um id: ");
+                    int id1 = sc.nextInt();
+                    Aluno aluno1 = alunoDAOImplements.buscarPorId(id1);
+
+                    System.out.println("Digite o valor do nome: ");
+                    sc.nextLine();
+                    String nome = sc.nextLine();
+                    aluno1.setNome(nome);
+
+                    System.out.println("Digite o valor do cpf: ");
+
+                        String cpf = sc.nextLine();
+                        aluno1.setCpf(cpf);
+
+                    System.out.println("Digite o valor do email: ");
+
+                        String email = sc.nextLine();
+                        aluno1.setEmail(email);
+
+                        alunoDAOImplements.atualizarAluno(aluno1);
                     break;
                 case 3:
                     System.out.println("Excluir Aluno");

@@ -4,10 +4,7 @@ import dao.IAlunoDAO;
 import database.sqlConn;
 import model.Aluno;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,7 +41,20 @@ public class AlunoDAOImplements implements IAlunoDAO {
 
     @Override
     public void atualizarAluno(Aluno aluno) {
-
+        String sql = "UPDATE aluno SET nome = ?, cpf = ?, email = ?, data_nascimento = ?, telefone = ? WHERE id = ?";
+        try (Connection conn = sqlConn.getConnection()){
+            PreparedStatement stmt =conn.prepareStatement(sql);
+            stmt.setString(1, aluno.getNome());
+            stmt.setString(2, aluno.getCpf());
+            stmt.setString(3, aluno.getEmail());
+            stmt.setDate(4, Date.valueOf(aluno.getData_nascimento()));
+            stmt.setString(5, aluno.getTelefone());
+            stmt.setInt(6, aluno.getId());
+            stmt.executeUpdate();
+            System.out.println("Objeto atualizado. ");
+        }catch (SQLException e){
+            System.out.println("Erro ao atualizar" + e.getMessage());
+        }
     }
 
     @Override
