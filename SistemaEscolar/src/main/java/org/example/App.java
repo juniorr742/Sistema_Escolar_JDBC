@@ -27,9 +27,11 @@ public class App
         do {
             System.out.println("===MENU===");
             System.out.println("1. Cadastrar Aluno");
+            System.out.println("1. Cadastrar Aluno");
             System.out.println("2. Atualizar Aluno");
             System.out.println("3. Excluir Aluno");
             System.out.println("4. Listar Alunos");
+            System.out.println("5. Buscar por id");
             System.out.println("0. Sair do programa");
 
             opcao = sc.nextInt();
@@ -37,11 +39,29 @@ public class App
             switch (opcao){
                 case 1:
                     System.out.println("Cadastrar aluno");
-                    System.out.println("Digite o id: ");
-                    int id = sc.nextInt();
-                    Aluno aluno = alunoDAOImplements.buscarPorId(id);
-                    System.out.println(aluno);
-                    break;
+
+                    System.out.println("Digite o nome: ");
+                    String nomec = sc.nextLine();
+                    System.out.println("Digite o cpf: ");
+                    String cpfc = sc.nextLine();
+                    System.out.println("Digite o email: ");
+                    String emailc = sc.nextLine();
+                    System.out.println("Digite a data de nascimento: ");
+                    String data = sc.nextLine();
+
+                    LocalDate dataNascimento = null;
+                    try {
+                        dataNascimento = LocalDate.parse(data, DateTimeFormatter.ofPattern("dd/mm/yyyy"));
+                    }catch (Exception e){
+                        System.out.println("Formato de data errado");
+                    }
+
+                    System.out.println("Digite o telefone: ");
+                    String telefonec= sc.nextLine();
+
+                    Aluno alunoc = new Aluno(nomec, cpfc, emailc, dataNascimento, telefonec);
+                    alunoDAOImplements.salvarAluno(alunoc);
+
                 case 2:
                     System.out.println("Atualizar dados");
 
@@ -80,6 +100,13 @@ public class App
                             System.out.println(al);
                         }
                     }
+                    break;
+                case 5:
+                    System.out.println("Digite o id: ");
+                    int id = sc.nextInt();
+                    Aluno aluno = alunoDAOImplements.buscarPorId(id);
+                    System.out.println(aluno);
+                    break;
             }
         }while (opcao != 0);
 
